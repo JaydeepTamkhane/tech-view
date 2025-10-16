@@ -1,4 +1,4 @@
-# Tech View Blog Backend
+[# Tech View Blog Backend
 
 **Tech View** is a blog and content management backend built with **Spring Boot**.  
 It allows authenticated users to create, read, update, and delete posts, comments, tags, and categories, with support for cover images, likes, and JWT-based authentication.
@@ -19,7 +19,7 @@ It allows authenticated users to create, read, update, and delete posts, comment
 
 ## Architecture
 
-
+### Diagram ![Tech View Architecture](docs/ArchitectureTechView.png) 
 
 ### Explanation
 1. Client sends REST requests via **Swagger UI**, **Postman**, or frontend.
@@ -215,3 +215,4 @@ http://localhost:8080/api/v1/v3/api-docs
 
 ---
 
+]()
