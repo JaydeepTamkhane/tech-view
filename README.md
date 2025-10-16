@@ -82,18 +82,33 @@ Example request body:
 - PostgreSQL
 - Cloudinary account (for image storage)
 
+Got it! Here's just the **Environment Variables** part in Markdown format for direct use in your README:
+
 ### Environment Variables
-Create `.env` or set environment variables:
+
+Set these in **IntelliJ Run/Debug Configuration** or your terminal:
 
 ```bash
-CLOUDINARY_NAME=""
-CLOUDINARY_KEY=""
-CLOUDINARY_SECRET=""
-DB_USERNAME=""
-DB_PASSWORD=""
-DB_URL="jdbc:postgresql://localhost:5432/tech_view"
-JWT_SECRET=""
+# Example for terminal (Linux/macOS)
+export CLOUDINARY_NAME=""
+export CLOUDINARY_KEY=""
+export CLOUDINARY_SECRET=""
+export DB_USERNAME=""
+export DB_PASSWORD=""
+export DB_URL=""
+export JWT_SECRET=""
+
+# Example for Windows PowerShell
+$env:CLOUDINARY_NAME=""
+$env:CLOUDINARY_KEY=""
+$env:CLOUDINARY_SECRET=""
+$env:DB_USERNAME=""
+$env:DB_PASSWORD=""
+$env:DB_URL=""
+$env:JWT_SECRET=""
 ````
+
+IntelliJ: Go to **Run → Edit Configurations → Environment Variables** and add these key-value pairs.
 
 ### Run
 
