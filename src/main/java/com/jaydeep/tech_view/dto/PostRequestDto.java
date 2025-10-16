@@ -19,9 +19,6 @@ public class PostRequestDto {
     @NotBlank(message = "Content is required")
     private String content;
 
-    @NotNull(message = "AuthorId is required")
-    private Long authorId;
-
     private Set<Long> tagIds;
     private Set<Long> categoryIds;
 }

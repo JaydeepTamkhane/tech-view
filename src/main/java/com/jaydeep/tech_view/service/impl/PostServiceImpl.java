@@ -8,6 +8,7 @@ import com.jaydeep.tech_view.entity.*;
 import com.jaydeep.tech_view.exception.ResourceNotFoundException;
 import com.jaydeep.tech_view.repository.*;
 import com.jaydeep.tech_view.security.CurrentUserUtil;
+import com.jaydeep.tech_view.security.OwnershipUtil;
 import com.jaydeep.tech_view.service.CloudinaryService;
 import com.jaydeep.tech_view.service.PostService;
 import com.jaydeep.tech_view.specification.PostSpecifications;
@@ -37,6 +38,7 @@ public class PostServiceImpl implements PostService {
     private final CloudinaryService cloudinaryService;
     private final CurrentUserUtil currentUserUtil;
     private final PostLikeRepository postLikeRepository;
+    private final OwnershipUtil ownershipUtil;
 
     @Override
     public Page<PostResponseDto> searchPosts(PostSearchRequestDto postSearchRequestDto, Pageable pageable) {
@@ -66,7 +68,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostResponseDto createPost(PostRequestDto dto) {
-        User author = userRepository.findById(dto.getAuthorId()).orElseThrow(() -> new RuntimeException("Author not found"));
+        User author = currentUserUtil.getCurrentUser();
 
         Set<Tag> tags = dto.getTagIds() != null ? new HashSet<>(tagRepository.findAllById(dto.getTagIds())) : new HashSet<>();
 
@@ -84,6 +86,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResponseDto uploadCoverImage(Long postId, MultipartFile file) throws IOException {
         Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+        ownershipUtil.ensureCurrentUserOwnership(post.getAuthor());
 
         Map uploadResult = cloudinaryService.uploadPostCoverImage(file, post.getAuthor().getId(), post.getId());
 
@@ -99,7 +102,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResponseDto deleteCoverImage(Long postId) throws IOException {
         Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
-
+        ownershipUtil.ensureOwnerOrAdmin(post.getAuthor());
         if (post.getCoverImagePublicId() == null) {
             throw new IllegalStateException("No cover image to delete");
         }
